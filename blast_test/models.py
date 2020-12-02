@@ -10,7 +10,7 @@ class BlastJob(models.Model):
 
 
 class BlastResult(models.Model):
-    blast_job = models.ForeignKey(BlastJob, default=1, on_delete=models.CASCADE)
+    blast_job = models.ForeignKey(BlastJob, on_delete=models.CASCADE)
     result_no = models.IntegerField(blank=False, null=False)        # increase linearly i guess
     sstart = models.IntegerField(blank=False, null=False)           # no. 9
     send = models.IntegerField(blank=False, null=False)             # no. 10

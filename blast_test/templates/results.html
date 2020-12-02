@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Results </title>
 </head>
 <body>
+<center>
+	<div> Results </div>
      <div>
-	<p> My name is Dipendra Bharati </p>
-	{{ q.blast_job }}
-	{{ q.result_no }}
-	{{ q.sequence }}
+	<ul>
+	{% for item in new_list %}
+         <li> {{ item.blast_job }} {{ item.result_no}} {{ item.sstart }} {{ item.send }} {{ item.sstrand }} {{ item.evalue }} {{ item.pident }} </li>
+	{% endfor %}
+	</ul>
 </div>
+</center>
 </body>
 </html>
