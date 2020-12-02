@@ -4,6 +4,7 @@ from .utils import create_query_fasta, extract_sequence
 import os.path
 import subprocess
 
+
 def home(request):
     return render(request, 'main.html')
 
@@ -20,9 +21,11 @@ def run_blast(request):
     # ecoli_seq = extract_sequence()
     # subprocess.call('/home/ubuntu/TestProject/subprocess_call/docker_run.sh')
     with open('/home/ubuntu/TestProject/results/sh_aws.out', 'r') as a_file:
+        i = 0
         for line in a_file:
             x = line.split()
-            s = BlastResult(sstart=x[0], send=x[1], sstrand=x[2], evalue=x[3], pident=x[4], sequence=x[5])
-            s.save()
-    return render(request, 'results.html', {'dna_sequence': dna_sequence}, {'s':s})
-
+            q = BlastResult(id=None, blast_job=s, result_no=i,
+                            sstart=x[0], send=x[1], sstrand=x[2], evalue=x[3], pident=x[4], sequence=x[5])
+            q.save()
+            i += 1
+    return render(request, 'results.html', {'dna_sequence': dna_sequence}, {'q': q})
