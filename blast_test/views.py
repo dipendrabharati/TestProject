@@ -9,8 +9,8 @@ def home(request):
     return render(request, 'main.html')
 
 
-def results(request):
-    return render(request, 'results.html')
+# def results(request):
+#    return render(request, 'results.html')
 
 
 def run_blast(request):
@@ -28,4 +28,6 @@ def run_blast(request):
                             sstart=x[0], send=x[1], sstrand=x[2], evalue=x[3], pident=x[4], sequence=x[5])
             q.save()
             i += 1
-    return render(request, 'results.html', {'dna_sequence': dna_sequence}, {'q': q})
+    return render(request, 'results.html', {'dna_sequence': dna_sequence, 'q': q})
+
+
