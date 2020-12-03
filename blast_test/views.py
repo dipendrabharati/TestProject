@@ -23,25 +23,25 @@ def run_blast(request):
 
     if os.path.isfile(out_file):
         os.remove(out_file)
-    p1 = subprocess.Popen(['/bin/bash', '/home/ubuntu/TestProject/subprocess_call/docker_run.sh'],
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    if p1.stdout:
-        try:
-            with open('/home/ubuntu/TestProject/results/sh_aws.out', 'r') as a_file:
-                i = 1
-                new_list = []
-                for line in a_file:
-                    x = line.split()
-                    q = BlastResult(id=None, blast_job=s, result_no=i,
-                                    sstart=x[0], send=x[1], sstrand=x[2], evalue=x[3], pident=x[4], sequence=x[5])
-                    q.save()
-                    new_list.append(q)
-                    i += 1
-                a_file.close()
-            return render(request, 'results.html', {'dna_sequence': dna_sequence, 'new_list': new_list})
-        except IOError:
-            no_result = " Sorry, The Blast Search was successful but the system cannot display the output"
-            return render(request, 'no_results.html', {'no_result': no_result})
-    elif p1.stderr:
-        no_result = " Sorry, The Blast Search couldn't be completed. "
-        return render(request, 'no_results.html', {'no_result': no_result})
+    p = subprocess.Popen(['/bin/bash', '/home/ubuntu/TestProject/subprocess_call/docker_run.sh'],
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    if p.poll() is not None:
+        with open('/home/ubuntu/TestProject/results/sh_aws.out', 'r') as a_file:
+            i = 1
+            new_list = []
+            for line in a_file:
+                x = line.split()
+                q = BlastResult(id=None, blast_job=s, result_no=i,
+                                sstart=x[0], send=x[1], sstrand=x[2], evalue=x[3], pident=x[4], sequence=x[5])
+                q.save()
+                new_list.append(q)
+                i += 1
+        a_file.close()
+    return render(request, 'results.html', {'dna_sequence': dna_sequence, 'new_list': new_list})
+    #     except IOError:
+    #         no_result = " Sorry, The Blast Search was successful but the system cannot display the output"
+    #         return render(request, 'no_results.html', {'no_result': no_result})
+    # elif p1.stderr:
+    #     no_result = " Sorry, The Blast Search couldn't be completed. "
+    #     return render(request, 'no_results.html', {'no_result': no_result})
