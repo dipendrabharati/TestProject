@@ -4,7 +4,6 @@ from .utils import create_query_fasta, extract_sequence
 import os.path
 import subprocess
 
-
 def home(request):
     return render(request, 'main.html')
 
@@ -17,12 +16,21 @@ def run_blast(request):
     dna_sequence = request.POST.get('dna')
     s = BlastJob(query=dna_sequence)
     s.save()
-    create_query_fasta('./queries/python.fasta', dna_sequence)
+    query_file = './queries/python.fasta'
+    # if os.path.isfile(query_file):
+    #    os.remove(query_file)
+    # else:
+    #    create_query_fasta(query_file, dna_sequence)
     # ecoli_seq = extract_sequence()
-    subprocess.call('/home/ubuntu/TestProject/subprocess_call/docker_run.sh')
+    out_file = '/home/ubuntu/TestProject/results/sh_aws.out'
+
+    if os.path.isfile(out_file):
+        os.remove(out_file)
+    subprocess.run(['/bin/bash', '/home/ubuntu/TestProject/subprocess_call/docker_run.sh'])
+
     try:
         with open('/home/ubuntu/TestProject/results/sh_aws.out', 'r') as a_file:
-            i = 0
+            i = 1
             new_list = []
             for line in a_file:
                 x = line.split()
@@ -31,9 +39,8 @@ def run_blast(request):
                 q.save()
                 new_list.append(q)
                 i += 1
+            a_file.close()
         return render(request, 'results.html', {'dna_sequence': dna_sequence, 'new_list': new_list})
     except IOError:
-        no_result = " Sorry, the search cannot produce any results "
-        return render(request, 'results.html', {'no_result': no_result})
-    finally:
-        a_file.close()
+        # no_result = " Sorry, the search cannot produce any results "
+        return render(request, 'no_results.html')

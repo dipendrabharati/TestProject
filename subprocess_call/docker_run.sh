@@ -1,6 +1,5 @@
 #!/bin/sh
 cd ~/TestProject
-chmod +x docker_run.sh
 sudo docker run --rm \
 	 -v ~/TestProject/genome:/blast/genome:ro \
 	 -v ~/TestProject/queries:/blast/queries:ro \
