@@ -2,16 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 <center>
 	<div> Results </div>
      <div>
-	<ul>
+	<table class="table table-dark">
+		<thead>
+    <tr>
+        <th scope="col">result_no</th>
+        <th scope="col">sstart</th>
+        <th scope="col">ssend</th>
+		<th scope="col">sstrand</th>
+		<th scope="col">evalue</th>
+		<th scope="col">pident</th>
+    </tr>
+  </thead>
+		<tbody>
 	{% for item in new_list %}
-         <li> {{ item.blast_job }} {{ item.result_no}} {{ item.sstart }} {{ item.send }} {{ item.sstrand }} {{ item.evalue }} {{ item.pident }} </li>
-	{% endfor %}
-	</ul>
+	<tr>
+		<td> {{ item.result_no}} </td>
+		<td> {{ item.sstart }}   </td>
+		<td> {{ item.send }}    </td>
+		<td> {{ item.sstrand }} </td>
+		<td> {{ item.evalue }}  </td>
+		<td> {{ item.pident }} </td>
+	</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 </div>
 </center>
 </body>
