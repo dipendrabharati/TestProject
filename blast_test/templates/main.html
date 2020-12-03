@@ -13,7 +13,7 @@
     <h5 class="card-title">Enter DNA Sequence</h5>
     <form action="/results/" method="post">
         {% csrf_token %}
-    <input type="text" name="dna"> <br>
+    <input type="text" name="dna" required> <br>
     <p><small class="form-text text-muted"> The sequence can only contain letters A, G, C and T. </small> </p>
     <input type="submit" class="btn btn-primary">
     </form>
